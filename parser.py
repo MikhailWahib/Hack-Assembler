@@ -47,11 +47,12 @@ class Parser:
 
     def comp(self) -> str | None:
         if self.commandType() == 'C_COMMAND':
+            startIdx = self.cleanedCommands[0].find('=')
             endIdx = self.cleanedCommands[0].find(';')
             if endIdx == -1:
                 return None
 
-            return self.cleanedCommands[0][endIdx+1:]
+            return self.cleanedCommands[0][startIdx+1:endIdx]
 
     def jump(self) -> str | None:
         if self.commandType() == 'C_COMMAND':
