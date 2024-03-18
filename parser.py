@@ -14,6 +14,7 @@ class Parser:
             if command[:2] == '//' or command[0] == '\n':
                 continue
             else:
+                command = command.replace(' ', '')
                 self.cleanedCommands.append(command)
 
     def hasMoreCommands(self):
