@@ -17,12 +17,9 @@ class Assembler:
             self.parser.advance()
             cmdType = self.parser.commandType()
             if cmdType in ["A_COMMAND", "C_COMMAND"]:
-                # print(self.parser.symbol(), counter)
                 counter += 1
             elif cmdType == "L_COMMAND":
                 self.symbolTable.addEntry(self.parser.symbol(), counter)
-                # print(self.parser.symbol(),
-                #       self.symbolTable.getAddress(self.parser.symbol()), counter)
         self.parser.curIndex = -1
 
     def populateSymbolTableACmds(self):
@@ -55,11 +52,6 @@ class Assembler:
 
             elif self.parser.commandType() == "C_COMMAND":
                 res = '111'
-                # print("------------------------")
-                # print(self.parser.cleanedCommands[self.parser.curIndex])
-                # print(
-                #     f"dest: {self.parser.dest()}, comp: {self.parser.comp()}, jump: {self.parser.jump()}")
-                # print("------------------------")
                 dest = self.code.dest(self.parser.dest())
                 comp = self.code.comp(self.parser.comp())
                 jump = self.code.jump(self.parser.jump())
@@ -72,14 +64,3 @@ class Assembler:
     def writeFile(self, path):
         with open(path, 'w') as f:
             f.write(self.translate())
-
-
-a = Assembler(
-    "YOUR PATH TO THE ASSEMBLY FILE HERE")
-
-a.populateSymbolTableLCmds()
-a.populateSymbolTableACmds()
-
-print(a.translate())
-
-a.writeFile("YOUR PATH TO THE OUTPUT FILE HERE")
