@@ -4,64 +4,60 @@ class Parser:
         self.f = open(path, 'r')
         self.commands = self.f.readlines()
         self.cleanedCommands = []
+        self.curIndex = -1
 
         # clean commands
         self.cleanCommands()
 
-    def cleanCommands(self) -> None:
+    def cleanCommands(self):
         for command in self.commands:
             if command[:2] == '//' or command[0] == '\n':
                 continue
             else:
                 self.cleanedCommands.append(command)
 
-    def hasMoreCommands(self) -> bool:
-        return len(self.cleanedCommands) > 0
+    def hasMoreCommands(self):
+        return self.curIndex < len(self.cleanedCommands) - 1
 
-    def advance(self) -> None:
-        self.cleanedCommands.pop(0)
+    def advance(self):
+        self.curIndex += 1
 
-    def commandType(self) -> str:
-        if self.cleanedCommands[0][0] == '@':
+    def commandType(self):
+        if self.cleanedCommands[self.curIndex][0] == '@':
             return 'A_COMMAND'
-        elif self.cleanedCommands[0][0] == '(':
+        elif self.cleanedCommands[self.curIndex][0] == '(':
             return 'L_COMMAND'
         else:
             return 'C_COMMAND'
 
-    def symbol(self) -> str | None:
+    def symbol(self):
         if self.commandType() == 'A_COMMAND':
-            return self.cleanedCommands[0][1:]
+            return self.cleanedCommands[self.curIndex][1:]
         elif self.commandType() == 'L_COMMAND':
-            return self.cleanedCommands[0][1:-1]
+            return self.cleanedCommands[self.curIndex][1:-1]
         else:
-            return None
+            return 'null'
 
-    def dest(self) -> str | None:
+    def dest(self):
         if self.commandType() == 'C_COMMAND':
-            endIdx = self.cleanedCommands[0].find('=')
+            endIdx = self.cleanedCommands[self.curIndex].find('=')
             if endIdx == -1:
-                return None
+                return 'null'
+            return self.cleanedCommands[self.curIndex][:endIdx]
 
-            return self.cleanedCommands[0][:endIdx]
-
-    def comp(self) -> str | None:
+    def comp(self):
         if self.commandType() == 'C_COMMAND':
-            startIdx = self.cleanedCommands[0].find('=')
-            endIdx = self.cleanedCommands[0].find(';')
-            if endIdx == -1:
-                return None
+            startIdx = self.cleanedCommands[self.curIndex].find('=') + 1
+            endIdx = self.cleanedCommands[self.curIndex].find(';')
 
-            return self.cleanedCommands[0][startIdx+1:endIdx]
+            return self.cleanedCommands[self.curIndex][startIdx:endIdx]
 
-    def jump(self) -> str | None:
+    def jump(self):
         if self.commandType() == 'C_COMMAND':
-            startIdx = self.cleanedCommands[0].find(';')
+            startIdx = self.cleanedCommands[self.curIndex].find(';')
             if startIdx == -1:
-                return None
+                return 'null'
 
-            return self.cleanedCommands[0][:startIdx]
+            # print(self.cleanedCommands[self.curIndex][startIdx + 1:])
 
-    def showCommands(self) -> None:
-        print(f"\n Original Commands: {self.commands} \n")
-        print(f"Cleaned Commands: {self.cleanedCommands} \n")
+            return self.cleanedCommands[self.curIndex][startIdx + 1:-1]
