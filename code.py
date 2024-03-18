@@ -23,7 +23,6 @@ class Code:
     def jump(self, mnemonic):
         jumpDict = {'null': '000', 'JGT': '001', 'JEQ': '010', 'JGE': '011',
                     'JLT': '100', 'JNE': '101', 'JLE': '110', 'JMP': '111'}
-        print(mnemonic, jumpDict[mnemonic])
         if mnemonic in jumpDict:
             return jumpDict[mnemonic]
         else:
