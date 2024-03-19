@@ -9,5 +9,5 @@ This project is a part of Nand2Tetris course.
 ## Usage
 
 ```bash
-python3 index.py <path_to_hack_assembly_file>
+python3 main.py <path_to_hack_assembly_file>
 ```
