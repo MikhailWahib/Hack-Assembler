@@ -11,3 +11,5 @@ This project is a part of Nand2Tetris course.
 ```bash
 python3 main.py <path_to_hack_assembly_file>
 ```
+
+You can use ASM samples in the /samples folder
