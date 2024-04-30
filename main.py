@@ -8,8 +8,8 @@ if len(sys.argv) < 2:
 
 try:
     assembler = Assembler(sys.argv[1])
-    assembler.populateSymbolTableLCmds()
-    assembler.populateSymbolTableACmds()
+    assembler.firstIteration()
+    assembler.secondIteration()
     assembler.writeFile(sys.argv[1].split(".")[0] + ".hack")
 
     print("Translated file successfully written to " +

@@ -11,7 +11,7 @@ class Assembler:
         self.symbolTable = SymbolTable()
         self.translated = ""
 
-    def populateSymbolTableLCmds(self):
+    def firstIteration(self):
         counter = 0
         while self.parser.hasMoreCommands():
             self.parser.advance()
@@ -22,7 +22,7 @@ class Assembler:
                 self.symbolTable.addEntry(self.parser.symbol(), counter)
         self.parser.curIndex = -1
 
-    def populateSymbolTableACmds(self):
+    def secondIteration(self):
         counter = 16
         while self.parser.hasMoreCommands():
             self.parser.advance()
